@@ -7,11 +7,15 @@ export const useStore = defineStore({
     testId: 'a52d4f6e8e4303f9e59c46354d2b92ba'
   }),
   getters: {
-    doubleCount: (state) => state.apiKey += 'dd'
+    //
   },
   actions: {
-    increment() {
-      this.apiKey++
-    }
+    loading() {
+			document.querySelector('.loading').classList.add('on');
+		},
+		loadingOk() {
+			document.querySelector('.loading').classList.remove('on');
+			console.log('load ok');
+		}
   }
 })

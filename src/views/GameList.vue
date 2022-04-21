@@ -23,22 +23,42 @@ let data = {
   } ]
 };
 
+const store = useStore();
+
 export default {
+  data() {
+    return {
+      userData: {}
+    }
+  },
   setup() {
-    const store = useStore();
-		console.log(store.apiKey);
+    store.loading();
+  },
+  mounted() {
+    store.loadingOk();
+    console.log(this.$data);
     fetch(`https://api.neople.co.kr/cy/players/${store.testId}?apikey=${store.apiKey}`)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
+        this.$data.userData = data;
       });
-  },
+  }
 }
 </script>
 
 <template>
   <div class="game-list">
-		List
+    <div class="profile">
+      <div class="rankpic"></div>
+      <div class="textbox">
+        <div class="name">
+          <b class="nickname">{{userData.nickname}}</b>
+          <span class="grade">{{userData.grade}}</span>
+          <span class="clanName" v-if="userData.clanName !== null">{{userData.clanName}}</span>
+        </div>
+      </div>
+    </div>
 	</div>
 </template>
 

@@ -5,6 +5,7 @@ import Footer from '@/components/Footer.vue'
 </script>
 
 <template>
+  <div class="loading">Loading</div>
   <Header />
   <RouterView />
   <Footer />
@@ -12,6 +13,23 @@ import Footer from '@/components/Footer.vue'
 
 <style>
 @import '@/assets/base.css';
+
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 5rem;
+}
+.loading.on {
+  display: flex;
+}
 
 #app {
   max-width: 1280px;
