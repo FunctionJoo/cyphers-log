@@ -2,7 +2,9 @@
 </script>
 
 <template>
-  <footer>footer</footer>
+  <footer>
+    <p class="copy">© FunctionJoo Corporation All Rights Reserved.</p>
+  </footer>
 </template>
 
 <style scoped>
