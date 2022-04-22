@@ -112,7 +112,7 @@ export default {
 
       <div class="game-list-in" v-if="userData.matches">
         <div class="game-li-li" :class="{ win: (item.playInfo.result == 'win'), lose: (item.playInfo.result == 'lose') }" v-for="item in userData.matches.rows" v-bind:key="item.matchId">
-          <div class="date">{{item.date}}</div>
+          <div class="date">{{item.date}} / {{item.playInfo.playTime}}</div>
           {{item.playInfo.characterId}}
           {{item.playInfo.characterName}}
           <div class="position">
