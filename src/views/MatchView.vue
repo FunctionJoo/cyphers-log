@@ -50,8 +50,7 @@ export default {
   data() {
     return {
       hasUser: null,
-      userData: {},
-      matchList: {}
+      matchData: {},
     }
   },
   setup() {
@@ -60,25 +59,11 @@ export default {
   mounted() {
     let that = this;
     //let test = `https://api.neople.co.kr/cy/players?nickname=${this.$route.params.nickName}&wordType=full&apikey=${store.apiKey}`;
-    fetch(`https://api.neople.co.kr/cy/players?nickname=${this.$route.params.nickName}&wordType=match&apikey=${store.apiKey}`)
+    fetch(`https://api.neople.co.kr/cy/matches/${this.$route.params.matchId}?&apikey=${store.apiKey}`)
       .then((response) => response.json())
       .then((data) => {
+        this.$data.matchData = data;
         console.log(data);
-        if (data.rows.length == 0) {
-          that.hasUser = false;
-          console.log('not found');
-          return false;
-        } else if (data.rows.length > 0) {
-          that.hasUser = true;
-          fetch(`https://api.neople.co.kr/cy/players/${data.rows[0].playerId}/matches?gameTypeId=${'normal'}&apikey=${store.apiKey}`)
-            .then((response) => response.json())
-            .then((data_match) => {
-              console.log('match!');
-              console.log(data_match);
-              that.$data.userData = data_match;
-            });
-        }
-        //this.$data.userData = data;
       })
       .catch((error) => {
         console.error('실패:', error);
@@ -91,7 +76,6 @@ export default {
   <div class="game-list">
     <h1 v-if="hasUser == false">검색된 유저가 없음</h1>
     <div v-else-if="hasUser == true" class="profile">
-
       <div class="rankpic">
         <div class="tierpic">{{userData.tierName}}</div>
         <div class="tiertext" v-if="userData.ratingPoint">
@@ -101,7 +85,6 @@ export default {
           unranked
         </div>
       </div>
-
       <div class="textbox">
         <div class="name">
           <b class="nickname">{{userData.nickname}}</b>
@@ -109,35 +92,14 @@ export default {
           <span class="clanName" v-if="userData.clanName !== null">{{userData.clanName}}</span>
         </div>
       </div>
-
       <div class="game-list-in" v-if="userData.matches">
-        <div class="game-li-li" :class="{ win: (item.playInfo.result == 'win'), lose: (item.playInfo.result == 'lose') }" v-for="item in userData.matches.rows" v-bind:key="item.matchId">
-          <div class="date">{{item.date}}</div>
-          {{item.playInfo.characterId}}
-          {{item.playInfo.characterName}}
-          <div class="position">
-            <p>{{item.position.name}}</p>
-            <ul>
-              <li v-for="(item_position, index) in item.position.attribute" v-bind:key="item.matchId+index">{{item_position.name}}</li>
-            </ul>
-          </div>
-          <div class="party" v-if="item.playInfo.partyInfo.length > 0">
-            <p>{{item.playInfo.partyInfo.length}}인</p>
-            <ul>
-              <li v-for="(item_party, index) in item.playInfo.partyInfo" v-bind:key="item.matchId+'party'+index">{{item_party.nickname}}</li>
-            </ul>
-          </div>
-          <RouterLink :to="{ path: '/match/' + item.matchId }">view</RouterLink>
+        <div class="game-li-li" v-for="item in userData.matches.rows" v-bind:key="item.matchId">
+          <RouterLink :to="{ path: '/match/' + item.matchId }">{{item.date}}</RouterLink>
         </div>
       </div>
-
     </div><!--profile-->
 	</div><!--game-list-->
 </template>
 
 <style scoped>
-.game-li-li {display: flex;}
-.game-li-li.win {background-color: #faa;}
-.game-li-li.lose {background-color: #aaf;}
-
 </style>
