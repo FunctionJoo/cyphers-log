@@ -61,28 +61,28 @@ export default {
     let that = this;
     //let test = `https://api.neople.co.kr/cy/players?nickname=${this.$route.params.nickName}&wordType=full&apikey=${store.apiKey}`;
     fetch(`https://api.neople.co.kr/cy/players?nickname=${this.$route.params.nickName}&wordType=match&apikey=${store.apiKey}`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        if (data.rows.length == 0) {
-          that.hasUser = false;
-          console.log('not found');
-          return false;
-        } else if (data.rows.length > 0) {
-          that.hasUser = true;
-          fetch(`https://api.neople.co.kr/cy/players/${data.rows[0].playerId}/matches?gameTypeId=${'normal'}&apikey=${store.apiKey}`)
-            .then((response) => response.json())
-            .then((data_match) => {
-              console.log('match!');
-              console.log(data_match);
-              that.$data.userData = data_match;
-            });
-        }
-        //this.$data.userData = data;
-      })
-      .catch((error) => {
-        console.error('실패:', error);
-      });
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      if (data.rows.length == 0) {
+        that.hasUser = false;
+        console.log('not found');
+        return false;
+      } else if (data.rows.length > 0) {
+        that.hasUser = true;
+        fetch(`https://api.neople.co.kr/cy/players/${data.rows[0].playerId}/matches?gameTypeId=${'normal'}&apikey=${store.apiKey}`)
+        .then((response) => response.json())
+        .then((data_match) => {
+          console.log('match!');
+          console.log(data_match);
+          that.$data.userData = data_match;
+        });
+      }
+      //this.$data.userData = data;
+    })
+    .catch((error) => {
+      console.error('실패:', error);
+    });
   }
 }
 </script>

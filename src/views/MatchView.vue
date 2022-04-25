@@ -51,6 +51,7 @@ export default {
     return {
       hasUser: null,
       matchData: {},
+      playerData: {}
     }
   },
   setup() {
@@ -60,41 +61,41 @@ export default {
     let that = this;
     //let test = `https://api.neople.co.kr/cy/players?nickname=${this.$route.params.nickName}&wordType=full&apikey=${store.apiKey}`;
     fetch(`https://api.neople.co.kr/cy/matches/${this.$route.params.matchId}?&apikey=${store.apiKey}`)
-      .then((response) => response.json())
-      .then((data) => {
-        this.$data.matchData = data;
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error('실패:', error);
-      });
+    .then((response) => response.json())
+    .then((data) => {
+      that.$data.hasUser = true;
+      that.$data.matchData = data;
+      console.log(data);
+      for (let idx = 0; idx < 10; idx++ ) {
+        let pld = data.players[idx];
+        that.$data.playerData[pld.playerId] = pld;
+      }
+    })
+    .catch((error) => {
+      console.error('실패:', error);
+    });
   }
 }
 </script>
 
 <template>
-  <div class="game-list">
-    <h1 v-if="hasUser == false">검색된 유저가 없음</h1>
-    <div v-else-if="hasUser == true" class="profile">
-      <div class="rankpic">
-        <div class="tierpic">{{userData.tierName}}</div>
-        <div class="tiertext" v-if="userData.ratingPoint">
-          {{userData.ratingPoint}}
-        </div>
-        <div class="tiertext" v-else-if="userData.ratingPoint == null">
-          unranked
-        </div>
-      </div>
-      <div class="textbox">
-        <div class="name">
-          <b class="nickname">{{userData.nickname}}</b>
-          <span class="grade">{{userData.grade}}</span>
-          <span class="clanName" v-if="userData.clanName !== null">{{userData.clanName}}</span>
-        </div>
-      </div>
-      <div class="game-list-in" v-if="userData.matches">
-        <div class="game-li-li" v-for="item in userData.matches.rows" v-bind:key="item.matchId">
-          <RouterLink :to="{ path: '/match/' + item.matchId }">{{item.date}}</RouterLink>
+  <div class="game-view">
+    <h1 v-if="hasUser == null">잘못된 경로</h1>
+    <h1 v-else-if="hasUser == false">검색된 유저가 없음</h1>
+    <div v-else-if="hasUser == true" class="match-info">
+      <span v-if="matchData.gameTypeId === 'normal'">일반</span>
+      <span v-else-if="matchData.gameTypeId === 'rank'">랭크</span>
+      <span>{{matchData.date}}</span>
+      <span>{{matchData.map.name}}</span>
+      <div class="d">
+        <div class="userlist" :class="{ win: (item.result == 'win'), lose: (item.result == 'lose')}" v-for="(item, idx) in matchData.teams" v-bind:key="idx">
+          <div class="userlist_in" v-for="(datas, idx2) in item.players" v-bind:key="idx+'/'+idx2">
+            <div class="playitem">
+              <div class="itemli" v-for="(iteminfo, idx3) in playerData[datas].items" v-bind:key="idx+'/'+idx3">
+                {{iteminfo.itemName}}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div><!--profile-->
@@ -102,4 +103,7 @@ export default {
 </template>
 
 <style scoped>
+.playitem {display: flex;}
+.userlist.win {background-color: #faa;}
+.userlist.lose {background-color: #aaf;}
 </style>
