@@ -61,8 +61,10 @@ export default {
     onSearch: function(e) {
       e.preventDefault();
       this.$router.push({ path: `/search/${this.nickName}` });
-
-
+    },
+    dbUpload: function(e) {
+      //e.preventDefault();
+      console.log(e);
     }
   }
 }
@@ -76,6 +78,11 @@ export default {
           <input type="text" name="nickName" id="nickName" v-model="nickName">
           <button type="submit">search</button>
         </div>
+      </form>
+      <form action="http://localhost:8080/api/character" method="post" v-on:submit="dbUpload">
+        <input type="text" id="title" name="title">
+        <input type="text" id="author" name="author">
+        <button type="submit">search</button>
       </form>
     </div>
 	</div>
