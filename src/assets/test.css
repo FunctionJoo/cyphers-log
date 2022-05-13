@@ -1,0 +1,75 @@
+#body {
+  display: block;
+  position: absolute;
+  width: 500px;
+  height: 620px;
+}
+
+#body .position {
+  display: none;
+}
+
+@media screen and (min-width: 1400px) {
+  #body .position {
+    color: blue;
+  }
+}
+
+#body .type_1 {
+  display: block;
+  color: #fff;
+}
+
+#body .type_2 {
+  display: block;
+  color: #f55;
+}
+
+#body .type_3 {
+  display: block;
+  color: #632828;
+}
+
+#body .type_4 {
+  display: block;
+  color: #26a384;
+}
+
+#body .type_5 {
+  display: block;
+  color: #47b42b;
+}
+
+#body .type_6 {
+  display: block;
+  color: #5c1d44;
+}
+
+#body #possst {
+  min-width: auto;
+}
+
+@media screen and (min-width: 1400px) {
+  #body #possst {
+    color: blue;
+  }
+}
+
+#body #possst .if {
+  position: absolute;
+}
+
+#body #possst .if .ifif {
+  position: absolute;
+}
+
+#body #possst .if .ifif .ofofofofofff {
+  position: absolute;
+}
+
+#body #possst .if .idsdd {
+  width: 50px;
+  background-color: #fff;
+  height: 125px;
+}
+/*# sourceMappingURL=test.css.map */

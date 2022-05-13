@@ -59,8 +59,13 @@ export default {
   },
   mounted() {
     let that = this;
+    fetch(`http://localhost:8080/cypapi`)
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+    });
     //let test = `https://api.neople.co.kr/cy/players?nickname=${this.$route.params.nickName}&wordType=full&apikey=${store.apiKey}`;
-    fetch(`https://api.neople.co.kr/cy/players?nickname=${this.$route.params.nickName}&wordType=match&apikey=${store.apiKey}`)
+    /*fetch(`https://api.neople.co.kr/cy/players?nickname=${this.$route.params.nickName}&wordType=match&apikey=${store.apiKey}`)
     .then((response) => response.json())
     .then((data) => {
       console.log(data);
@@ -82,7 +87,7 @@ export default {
     })
     .catch((error) => {
       console.error('실패:', error);
-    });
+    });*/
   }
 }
 </script>

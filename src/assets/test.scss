@@ -1,0 +1,72 @@
+$main-color: #fff;
+@function wow ($width, $height) {
+	@return ($width / $height);
+}
+$asdf_type: (
+	1: (bc: #fff, cl: #fff),
+	2: (bc: #f55, cl: #f55),
+	3: (bc: rgb(99, 40, 40), cl: #f55),
+	4: (bc: rgb(38, 163, 132), cl: #f55),
+	5: (bc: rgb(71, 180, 43), cl: #f55),
+	6: (bc: rgb(92, 29, 68), cl: #f55),
+);
+
+@mixin mq($point) {
+	@if $point == pc-lg {
+		@media screen and (min-width: 1400px) {
+			@content;
+		}
+	}
+
+	@else {
+		@media screen and (min-width: 1400px) {
+			@content;
+		}
+	}
+}
+
+#body {
+	display: block;
+	position: absolute;
+	width: 500px;
+	height: 620px;
+
+	.position {
+		display: none;
+
+		@include mq(pc-lg) {
+			color: blue;
+		}
+	}
+
+	.type_ {
+		@each $map, $value in $asdf_type {
+			&#{$map}{
+				display: block;
+				color: map-get($value, bc);
+			}
+		}
+	}
+	
+	#possst {
+		min-width: auto;
+		@include mq(pc-lg) {
+			color: blue;
+		}
+		.if {
+			position: absolute;
+			.ifif {
+				position: absolute;
+				.ofofofofofff {
+					position: absolute;
+					
+				}
+			}
+			.idsdd {
+				width: 50px;
+				background-color: $main-color;
+				height: wow(500px, 4);
+			}
+		}
+	}
+}
